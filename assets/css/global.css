@@ -1,0 +1,493 @@
+/* ----------------------------------------------------
+   GLOBAL PREMIUM AESTHETIC THEME
+---------------------------------------------------- */
+
+:root {
+    --pink-soft: #ffe8f1;
+    --pink-soft2: #fff1f8;
+    --pink-medium: #ffb3cc;
+    --pink-strong: #e86f9a;
+    --pink-glow: #ff9fc4;
+    --pink-deep: #d55f88;
+
+    --white: #ffffff;
+    --text-dark: #4a3f45;
+    --text-soft: #6d5f66;
+
+    --card-bg: rgba(255, 255, 255, 0.55);
+
+    --shadow: rgba(0, 0, 0, 0.08);
+    --shadow-strong: rgba(0, 0, 0, 0.18);
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle at top, #fff5fa, #ffeaf3, #fff6fc);
+    font-family: "Poppins", sans-serif;
+    color: var(--text-dark);
+    overflow-x: hidden;
+    animation: fadeBody 1s ease both;
+}
+
+/* Smooth fade */
+@keyframes fadeBody {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ----------------------------------------------------
+   NAVBAR
+---------------------------------------------------- */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 16px 0;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(14px);
+    text-align: center;
+    box-shadow: 0 8px 25px var(--shadow);
+    z-index: 50;
+}
+
+nav a {
+    margin: 0 26px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.07rem;
+    color: var(--pink-strong);
+    letter-spacing: .4px;
+    transition: 0.25s ease;
+}
+
+nav a:hover {
+    color: var(--pink-deep);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------------------
+   PAGE CONTAINER
+---------------------------------------------------- */
+.container {
+    padding-top: 150px;
+    padding-bottom: 80px;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    animation: fadeUp 1s ease forwards;
+}
+
+/* rising animation */
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(25px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ----------------------------------------------------
+   TITLES
+---------------------------------------------------- */
+h1, h2 {
+    font-family: "Playfair Display", serif;
+    color: var(--pink-strong);
+}
+
+h1 {
+    font-size: 2.7rem;
+    letter-spacing: 0.4px;
+}
+
+/* ----------------------------------------------------
+   GLASS CARD
+---------------------------------------------------- */
+.card {
+    padding: 28px;
+    margin: 25px auto;
+    width: 88%;
+    max-width: 680px;
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    border-radius: 22px;
+    box-shadow: 0 15px 35px var(--shadow);
+    font-size: 1.08rem;
+    line-height: 1.85;
+    color: var(--text-soft);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 45px var(--shadow-strong);
+}
+
+/* ----------------------------------------------------
+   CINEMATIC PHOTO
+---------------------------------------------------- */
+.cinematic {
+    width: 100%;
+    max-width: 330px;
+    border-radius: 26px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    filter: brightness(0.97);
+    transition: 0.4s ease;
+}
+
+.cinematic:hover {
+    transform: scale(1.035);
+    filter: brightness(1.1);
+}
+
+/* ----------------------------------------------------
+   GALLERY PAGE
+---------------------------------------------------- */
+.gallery-title {
+    margin-top: 150px;
+    font-family: "Playfair Display", serif;
+    font-size: 3rem;
+    text-align: center;
+    background: linear-gradient(90deg, var(--pink-strong), var(--pink-medium));
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: fadeUp 1.2s ease;
+}
+
+.gallery-grid {
+    width: 92%;
+    max-width: 1150px;
+    margin: 50px auto 90px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+}
+
+.gallery-grid .photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 22px 45px var(--shadow-strong);
+    transition: 0.35s ease;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    filter: brightness(0.92);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.gallery-grid .photo:hover img {
+    transform: scale(1.085);
+    filter: brightness(1.12);
+}
+
+/* ----------------------------------------------------
+   FLOATING HEART / SPARKLES
+---------------------------------------------------- */
+.heart {
+    position: fixed;
+    top: -20px;
+    color: var(--pink-medium);
+    font-size: 18px;
+    opacity: 0.85;
+    animation: heartFall linear forwards;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes heartFall {
+    0%   { transform: translateY(-20px) rotate(0); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Glitter effect */
+.glitter span {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--pink-glow);
+    border-radius: 50%;
+    animation: glitterAnim linear infinite;
+}
+
+@keyframes glitterAnim {
+    0%   { transform: translateY(-20px); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateY(120vh); opacity: 0; }
+}
+
+/* Small sparkle (for story page) */
+.sparkle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: var(--pink-medium);
+    border-radius: 50%;
+    animation: sparkleAnim 1s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes sparkleAnim {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(3); }
+}
+
+.bloom {
+    position: fixed;
+    width: 7px;
+    height: 7px;
+    background: var(--pink-glow);
+    border-radius: 50%;
+    filter: blur(2px);
+    animation: bloomAnim 1.3s ease-out forwards;
+}
+
+@keyframes bloomAnim {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(6); }
+}
+
+/* ----------------------------------------------------
+   PREMIUM FLOATING NEXT BUTTON
+---------------------------------------------------- */
+.next-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    padding: 12px 28px;
+    background: rgba(255, 182, 204, 0.55);
+    backdrop-filter: blur(12px);
+    border-radius: 40px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--pink-strong);
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    transition: 0.3s ease;
+    z-index: 40;
+}
+
+.next-btn:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 182, 204, 0.75);
+    color: var(--pink-deep);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.18);
+}
+
+/* Soft glowing ring */
+.next-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    padding: 2px;
+    background: linear-gradient(120deg, #ff96b8, #ffc4da, #ff96b8);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+.next-btn:hover::after {
+    opacity: 1;
+}
+
+/* ===================== */
+/* Garland Christmas UI  */
+/* ===================== */
+
+.christmas-garland {
+    width: 100%;
+    height: 80px;
+    position: relative;
+    overflow: visible;
+}
+
+/* ===================== */
+/* 🌟 PREMIUM CURVED CHRISTMAS GARLAND 🌟 */
+/* ===================== */
+
+.christmas-garland {
+    width: 100%;
+    height: 120px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* Elegant braided rope (Wave style) */
+.christmas-garland::before {
+    content: "";
+    position: absolute;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    height: 90px;
+    border-radius: 0 0 100% 100%;
+    background: repeating-linear-gradient(
+        -45deg,
+        #0f572c,
+        #0f572c 12px,
+        #c49c3b 12px,
+        #c49c3b 24px
+    );
+    box-shadow: 
+        0 3px 12px rgba(0, 0, 0, 0.25),
+        0 0 10px rgba(39, 102, 41, 0.3);
+}
+
+/* Pine Leaves */
+.christmas-garland .leaf {
+    width: 48px;
+    height: 48px;
+    background: #1e7039;
+    clip-path: polygon(50% 0%, 75% 12%, 100% 35%, 80% 55%, 90% 75%, 50% 95%, 10% 75%, 20% 55%, 0% 35%, 25% 12%);
+    position: absolute;
+    top: 12px;
+    animation: leafWiggle 3.2s infinite ease-in-out;
+    filter: drop-shadow(0 0 6px rgba(18, 74, 33, 0.8));
+}
+
+.christmas-garland .leaf:nth-child(1){ left: 16%; animation-delay:.2s; }
+.christmas-garland .leaf:nth-child(2){ left: 38%; animation-delay:.6s; }
+.christmas-garland .leaf:nth-child(3){ left: 60%; animation-delay:.9s; }
+.christmas-garland .leaf:nth-child(4){ left: 82%; animation-delay:1.3s; }
+
+@keyframes leafWiggle {
+    0%{ transform: rotate(-4deg); }
+    50%{ transform: rotate(6deg); }
+    100%{ transform: rotate(-4deg); }
+}
+
+/* Responsive */
+@media(max-width:600px){
+    .christmas-garland{
+        transform:scale(.85);
+        margin-top:20px;
+    }
+}
+
+/* ----------------------------------------------------
+   MENU PAGE STYLE (FRAME + ANIMASI)
+---------------------------------------------------- */
+
+body.menu-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Tree Grow Animation */
+.tree-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+
+    opacity: 0;
+    transform: scale(0.1);
+    transform-origin: center bottom;
+    animation: treeGrow 2.4s ease-out forwards;
+}
+
+@keyframes treeGrow {
+    from { transform: scale(0.1); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Heart Menu Container */
+.heart-menu {
+    position: relative;
+    width: 520px;
+    height: 520px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: float 6s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-14px); }
+}
+
+/* Frame */
+.frame {
+    width: 175px;
+    height: 175px;
+    overflow: hidden;
+    border-radius: 28px;
+    position: absolute;
+    border: 5px solid var(--pink-medium);
+    background: white;
+    box-shadow: 0 12px 40px var(--shadow-strong),
+                inset 0 0 30px rgba(255, 225, 240, 1);
+
+    /* Drop Animation */
+    opacity: 0;
+    transform: translateY(-180px) scale(0.9) rotate(8deg);
+    animation: drop 1.4s ease-out forwards;
+}
+
+@keyframes drop {
+    0%   { opacity: 0; transform: translateY(-180px) scale(0.9) rotate(8deg); }
+    80%  { opacity: 1; transform: translateY(12px) scale(1.03) rotate(3deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+/* Individual Frame Delay */
+.f1 { top:150px; left:260px; animation-delay: 0.4s; }
+.f2 { top:135px; left:110px; animation-delay: 0.7s; }
+.f3 { top:330px; left:110px; animation-delay: 1.0s; }
+.f4 { top:330px; left:260px; animation-delay: 1.3s; }
+
+.frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s ease-in-out;
+}
+
+.frame:hover {
+    transform: scale(1.14) translateY(-8px) !important;
+}
+
+.frame p {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    color: white;
+    font-size: 16px;
+    padding: 6px;
+    text-align: center;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    .heart-menu {
+        transform: scale(.82);
+    }
+}
+
+
+

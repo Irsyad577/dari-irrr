@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surat Untukmu</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(160deg, #fff0f7, #ffe7f1, #ffd4e8);
+        overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .envelope {
+        width: 280px;
+        height: 180px;
+        background: linear-gradient(135deg, #ffb3cc, #ff99bb);
+        border-radius: 16px;
+        position: relative;
+        cursor: pointer;
+        box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+        animation: drop 1.6s ease-out, float 3s ease-in-out infinite 1.6s;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @keyframes drop {
+        0% { transform: translateY(-200px) rotate(-8deg); opacity: 0; }
+        60% { transform: translateY(10px) rotate(2deg); }
+        100% { transform: translateY(0) rotate(0); opacity: 1; }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+    }
+
+    .envelope:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 70px rgba(255, 105, 180, 0.4);
+    }
+
+    .envelope::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(135deg, #ff8fb4, #ff6b9d);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        border-radius: 16px 16px 0 0;
+        transition: transform 0.6s ease;
+    }
+
+    .envelope:hover::before {
+        transform: rotateX(-20deg);
+    }
+
+    /* Decorative stamp */
+    .envelope::after {
+        content: "♥";
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        color: #ff1493;
+        border: 2px dashed rgba(255, 255, 255, 0.5);
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    .flap-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(135deg, #ff8fb4, #ff6b9d);
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        border-radius: 16px 16px 0 0;
+        transform-origin: top;
+        transition: transform 0.8s ease;
+        z-index: 3;
+    }
+
+    .envelope.opening .flap-top {
+        transform: rotateX(-180deg);
+    }
+
+    .letter {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 240px;
+        height: 0;
+        background: linear-gradient(to bottom, #ffffff, #fffbfc);
+        border-radius: 12px;
+        opacity: 0;
+        overflow: visible;
+        transition: all 1s ease;
+        box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+        padding: 0 24px;
+        z-index: 2;
+    }
+
+    .letter.open {
+        height: 240px;
+        opacity: 1;
+        padding-top: 28px;
+        top: -20px;
+    }
+
+    .letter.slide-out {
+        animation: slideOut 1s ease-in-out forwards;
+    }
+
+    @keyframes slideOut {
+        0% {
+            top: -20px;
+            transform: translateX(-50%) scale(1) rotate(0deg);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+        }
+        30% {
+            top: -60px;
+            transform: translateX(-50%) scale(1.05) rotate(-2deg);
+        }
+        60% {
+            top: -110px;
+            transform: translateX(-50%) scale(1.12) rotate(1deg);
+            box-shadow: 0 25px 60px rgba(255, 105, 180, 0.35);
+        }
+        100% {
+            top: -180px;
+            transform: translateX(-50%) scale(1.2) rotate(0deg);
+            box-shadow: 0 35px 80px rgba(255, 105, 180, 0.4);
+            opacity: 1;
+        }
+    }
+
+    .letter.slide-out::after {
+        content: "";
+        position: absolute;
+        inset: -10px;
+        background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, transparent 70%);
+        border-radius: 12px;
+        animation: glow 1s ease-in-out;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    @keyframes glow {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+
+    .letter::before {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        border: 1px dashed rgba(255, 182, 193, 0.3);
+        border-radius: 8px;
+        pointer-events: none;
+    }
+
+    .letter-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .letter h3 {
+        font-size: 1.2rem;
+        color: #ff1493;
+        margin-bottom: 12px;
+        text-align: center;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 0.3s;
+        font-weight: 600;
+    }
+
+    .letter p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: #555;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 0.6s;
+        text-align: center;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .instruction {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ff69b4;
+        font-size: 0.9rem;
+        opacity: 0;
+        animation: fadeInBounce 1s forwards 2s;
+        text-align: center;
+        font-weight: 500;
+        text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes fadeInBounce {
+        0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        60% { transform: translateX(-50%) translateY(-5px); }
+        100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .hearts {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .heart {
+        position: absolute;
+        font-size: 20px;
+        opacity: 0;
+        animation: floatHeart 4s ease-in forwards;
+    }
+
+    @keyframes floatHeart {
+        0% { transform: translateY(0) scale(0); opacity: 0; }
+        10% { opacity: 0.8; transform: scale(1); }
+        90% { opacity: 0.8; }
+        100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="envelope" onclick="openLetter()" id="envelope">
+    <div class="letter" id="letter">
+        <div class="letter-content">
+            <h3>Untuk Kamu... 💌</h3>
+            <p>
+                Terima kasih karena sudah hadir di hidupku.  
+                Ayo kita mulai perjalanan kenangan di website kecil ini.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="instruction">✨ Klik amplop untuk membuka ✨</div>
+
+<!-- SAKURA FALL -->
+<script>
+const sakuraCanvas = document.createElement("canvas");
+sakuraCanvas.width = window.innerWidth;
+sakuraCanvas.height = window.innerHeight;
+sakuraCanvas.style.position = "fixed";
+sakuraCanvas.style.top = 0;
+sakuraCanvas.style.left = 0;
+sakuraCanvas.style.pointerEvents = "none";
+sakuraCanvas.style.zIndex = "5";
+document.body.appendChild(sakuraCanvas);
+
+const sCtx = sakuraCanvas.getContext("2d");
+
+let sakuras = [];
+
+class Sakura {
+    constructor() { this.reset(); }
+
+    reset() {
+        this.x = Math.random() * sakuraCanvas.width;
+        this.y = Math.random() * -300;
+        this.size = 12 + Math.random() * 16;
+        this.speedY = 0.6 + Math.random() * 1;
+        this.speedX = Math.random() * 0.4 - 0.2;
+        this.rot = Math.random() * Math.PI * 2;
+        this.rotSpeed = Math.random() * 0.03 - 0.015;
+        this.opacity = 0.6 + Math.random() * 0.4;
+    }
+
+    draw() {
+        sCtx.save();
+        sCtx.globalAlpha = this.opacity;
+        sCtx.translate(this.x, this.y);
+        sCtx.rotate(this.rot);
+
+        const gradient = sCtx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        gradient.addColorStop(0, "rgba(255,182,193,0.95)");
+        gradient.addColorStop(1, "rgba(255,192,203,0.7)");
+        sCtx.fillStyle = gradient;
+
+        for (let i = 0; i < 5; i++) {
+            sCtx.beginPath();
+            const angle = (Math.PI * 2 / 5) * i;
+            const sx = Math.cos(angle) * this.size * 0.35;
+            const sy = Math.sin(angle) * this.size * 0.35;
+            sCtx.ellipse(
+                sx,
+                sy + this.size * 0.15,
+                this.size * 0.32,
+                this.size * 0.8,
+                angle,
+                0,
+                Math.PI * 2
+            );
+            sCtx.fill();
+        }
+
+        sCtx.restore();
+    }
+
+    update() {
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin(this.y * 0.015) * 0.5;
+        this.rot += this.rotSpeed;
+
+        if (this.y > sakuraCanvas.height + 50) this.reset();
+    }
+}
+
+for (let i = 0; i < 70; i++) sakuras.push(new Sakura());
+
+function animateSakura() {
+    sCtx.clearRect(0, 0, sakuraCanvas.width, sakuraCanvas.height);
+    sakuras.forEach((s) => {
+        s.update();
+        s.draw();
+    });
+    requestAnimationFrame(animateSakura);
+}
+animateSakura();
+
+window.addEventListener("resize", () => {
+    sakuraCanvas.width = window.innerWidth;
+    sakuraCanvas.height = window.innerHeight;
+});
+
+// Hearts animation
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '❤️';
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDelay = Math.random() * 2 + 's';
+    document.getElementById('hearts').appendChild(heart);
+    
+    setTimeout(() => heart.remove(), 4000);
+}
+
+// Sparkle animation
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.style.position = 'fixed';
+    sparkle.style.left = '50%';
+    sparkle.style.top = '35%';
+    sparkle.style.width = '8px';
+    sparkle.style.height = '8px';
+    sparkle.style.background = 'radial-gradient(circle, #fff, #ffb6c1)';
+    sparkle.style.borderRadius = '50%';
+    sparkle.style.pointerEvents = 'none';
+    sparkle.style.zIndex = '10';
+    sparkle.style.boxShadow = '0 0 10px #ff69b4';
+    
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 50 + Math.random() * 100;
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance;
+    
+    sparkle.animate([
+        { 
+            transform: 'translate(-50%, -50%) scale(0)',
+            opacity: 1
+        },
+        { 
+            transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1)`,
+            opacity: 0.8
+        },
+        { 
+            transform: `translate(calc(-50% + ${tx * 1.5}px), calc(-50% + ${ty * 1.5}px)) scale(0)`,
+            opacity: 0
+        }
+    ], {
+        duration: 1000,
+        easing: 'ease-out'
+    });
+    
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 1000);
+}
+
+// OPEN LETTER
+let isOpening = false;
+
+function openLetter() {
+    if (isOpening) return;
+    isOpening = true;
+
+    const letter = document.getElementById("letter");
+    const envelope = document.getElementById("envelope");
+
+    envelope.classList.add("opening");
+    
+    // Create floating hearts
+    for (let i = 0; i < 8; i++) {
+        setTimeout(() => createHeart(), i * 200);
+    }
+
+    setTimeout(() => {
+        letter.classList.add("open");
+    }, 400);
+
+    // Slide letter out after opening
+    setTimeout(() => {
+        letter.classList.add("slide-out");
+        
+        // Create sparkle effect when letter comes out
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                createSparkle();
+            }, i * 80);
+        }
+    }, 1400);
+
+    setTimeout(() => {
+        window.location.href = "menu.html";
+    }, 3500);
+}
+</script>
+
+</body>
+</html>

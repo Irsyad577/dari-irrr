@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<audio id="bgm" autoplay loop>
+    <source src="assets/music/music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const bgm = document.getElementById("bgm");
+
+// === FIX UTAMA ===
+// Hapus reset otomatis
+// Jangan pakai resetMusic = "yes" lagi
+// Karena ini yang bikin musik mulai dari 0 terus
+
+// Ambil waktu terakhir
+const savedTime = localStorage.getItem("musicTime");
+if (savedTime) {
+    bgm.currentTime = parseFloat(savedTime);
+}
+
+// Simpan waktu musik tiap 300ms
+setInterval(() => {
+    localStorage.setItem("musicTime", bgm.currentTime);
+}, 300);
+
+// Terima pesan play-music dari halaman lain
+window.addEventListener("message", e => {
+    if (e.data === "play-music") {
+        bgm.play();
+    }
+});
+</script>
+
+</body>
+</html>

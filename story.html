@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cerita Kita — Story</title>
+
+  <!-- Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent-pink: #e86f9a;
+      --soft-pink: #ffecf2;
+      --soft-gold: #f7e6c9;
+      --card-bg: #fff;
+      --muted: #6d5f66;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: auto;
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body.menu-page { 
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 60px;
+      padding-bottom: 60px;
+      background: linear-gradient(160deg, #ffe3f2 0%, #ffd0e6 40%, #ffe8f4 80%, #fff3fa 100%);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 25% 35%, rgba(255, 182, 193, 0.12), transparent 55%),
+                  radial-gradient(circle at 75% 65%, rgba(255, 200, 220, 0.1), transparent 55%);
+      pointer-events: none;
+      animation: ambientPulse 8s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* PAGE LOADER */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 10%, rgba(255,220,235,0.95), rgba(255,245,250,0.98));
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      animation: loaderHide 1s ease 0.7s forwards;
+    }
+
+    .loader-circle {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--soft-gold), rgba(255,192,210,0.9));
+      box-shadow: 0 8px 28px rgba(232,111,154,0.2), inset 0 -6px 18px rgba(255,255,255,0.6);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: var(--accent-pink);
+      font-size: 2rem;
+      animation: heartBeat 1.2s ease-in-out infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes loaderHide {
+      to { opacity: 0; visibility: hidden; transform: scale(1.05); }
+    }
+
+    /* STORY GRID */
+    .story-wrap {
+      width: min(950px, 92%);
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 35px;
+      align-items: start;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* POLAROID CARD */
+    .polaroid {
+      width: 420px;
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 18px;
+      padding-bottom: 28px;
+      box-shadow: 0 30px 60px rgba(17,12,14,0.08), 0 8px 20px rgba(232,111,154,0.12);
+      transform-origin: center;
+      transition: transform .4s cubic-bezier(.2,.9,.2,1), box-shadow .4s ease;
+      position: relative;
+      border: 2px solid rgba(255,240,245,0.8);
+      background-image: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,250,252,1));
+      animation: cardIn .9s ease both;
+    }
+
+    .polaroid::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(135deg, rgba(255, 182, 193, 0.2), rgba(255, 200, 220, 0.2));
+      border-radius: 20px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .polaroid:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes cardIn {
+      from { transform: translateY(18px) rotate(-2deg) scale(.97); opacity: 0; }
+      to { transform: translateY(0) rotate(0) scale(1); opacity: 1; }
+    }
+
+    .polaroid .photo {
+      width: 100%;
+      height: 360px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #ffeef6, #fffafc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 -6px 12px rgba(0,0,0,0.04);
+      border: 6px solid #fff;
+      position: relative;
+    }
+
+    .polaroid .photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .polaroid:hover .photo::after {
+      opacity: 1;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform .6s ease, filter .6s ease;
+    }
+
+    .polaroid:hover {
+      transform: translateY(-10px) rotate(-0.5deg) scale(1.03);
+      box-shadow: 0 35px 70px rgba(17,12,14,0.12), 0 10px 25px rgba(232,111,154,0.18);
+    }
+
+    .polaroid:hover img {
+      transform: scale(1.08);
+      filter: saturate(1.1) brightness(1.02);
+    }
+
+    .polaroid .caption {
+      margin-top: 14px;
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+      background: linear-gradient(135deg, #e86f9a, #ff8fb3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      letter-spacing: 0.3px;
+      font-style: italic;
+    }
+
+    /* TEXT CARD */
+    .story-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,250,252,0.98));
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 22px 60px rgba(17,12,14,0.08);
+      border: 2px solid rgba(255,240,245,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      animation: contentIn .9s ease .12s both;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+      animation: cardGlow 5s ease-in-out infinite;
+    }
+
+    @keyframes cardGlow {
+      0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+      50% { transform: translate(8%, 8%); opacity: 0.5; }
+    }
+
+    @keyframes contentIn {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .story-card h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.95rem;
+      background: linear-gradient(135deg, #e86f9a, #ff8fb3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .story-card .lead {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.02rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* MINI TIMELINE */
+    .timeline {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mini {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #fff;
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 16px 30px rgba(17,12,14,0.08);
+      border: 2px solid rgba(255,240,245,0.8);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .mini::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,182,193,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mini:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(17,12,14,0.12);
+    }
+
+    .mini:hover::before {
+      opacity: 1;
+    }
+
+    .mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 10px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .mini:hover img {
+      transform: scale(1.1);
+      filter: saturate(1.1) brightness(1.05);
+    }
+
+    /* BUTTON */
+    .sakura-btn {
+      margin-top: auto;
+      align-self: flex-start;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      background: linear-gradient(135deg, #ff8fb3, #ff6b94);
+      color: white;
+      border-radius: 40px;
+      padding: 13px 26px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 12px 30px rgba(232,111,154,0.3);
+      border: 2px solid rgba(255,255,255,0.4);
+      transition: transform .25s ease, box-shadow .25s ease;
+      font-size: 1rem;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .sakura-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .sakura-btn:hover::before {
+      transform: translateX(100%);
+    }
+
+    .sakura-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 48px rgba(232,111,154,0.4);
+    }
+
+    .sakura-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #ffb6d0);
+      box-shadow: 0 3px 10px rgba(255,255,255,0.4);
+      display: inline-block;
+    }
+
+    /* PETAL */
+    .petal {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ffbfd7);
+      border-radius: 50% 50% 50% 30%;
+      transform: rotate(-35deg);
+      box-shadow: 0 4px 14px rgba(232,111,154,0.15);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 15;
+      animation: petalFall linear forwards;
+    }
+
+    @keyframes petalFall {
+      0% { opacity: 0.8; transform: translateY(0) rotate(-35deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(315deg); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px) {
+      body.menu-page {
+        padding-top: 40px;
+        padding-bottom: 60px;
+      }
+      .story-wrap {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 20px 16px 60px;
+        width: 94%;
+      }
+      .polaroid {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 16px;
+        padding-bottom: 24px;
+      }
+      .polaroid .photo {
+        height: 320px;
+      }
+      .polaroid .caption {
+        font-size: 0.98rem;
+        margin-top: 12px;
+      }
+      .story-card {
+        padding: 24px;
+      }
+      .story-card h1 {
+        font-size: 1.75rem;
+      }
+      .story-card .lead {
+        font-size: 0.98rem;
+        line-height: 1.75;
+      }
+      .timeline {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .sakura-btn {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body class="menu-page">
+
+  <iframe src="player.html" style="display:none;" allow="autoplay"></iframe>
+
+  <div class="page-loader">
+    <div class="loader-circle">❤</div>
+  </div>
+
+  <main class="story-wrap">
+
+    <article class="polaroid">
+      <div class="photo">
+        <img src="assets/images/foto-berdua.jpeg" alt="Foto kita berdua (polaroid)">
+      </div>
+      <div class="caption">Kenangan kita — momen kecil yang indah</div>
+    </article>
+
+    <section class="story-card">
+      <h1>Cerita Kita</h1>
+
+      <p class="lead">
+        Di sini aku menaruh kenangan — waktu pertama tawa, hari-hari biasa yang jadi istimewa,
+        dan janji-janji kecil yang membuat kita bertahan.
+        Buka halaman demi halaman, dan semoga setiap fragmen mengingatkanmu betapa berharganya kamu.
+      </p>
+
+      <div class="timeline">
+        <figure class="mini"><img src="assets/images/foto1.jpeg" alt="Memory 1"></figure>
+        <figure class="mini"><img src="assets/images/foto2.jpeg" alt="Memory 2"></figure>
+        <figure class="mini"><img src="assets/images/foto3.jpeg" alt="Memory 3"></figure>
+        <figure class="mini"><img src="assets/images/foto4.jpeg" alt="Memory 4"></figure>
+        <figure class="mini"><img src="assets/images/foto5.jpeg" alt="Memory 5"></figure>
+        <figure class="mini"><img src="assets/images/foto8.jpeg" alt="Memory 6"></figure>
+      </div>
+
+      <a href="gallery.html" class="sakura-btn" id="nextBtn">
+        <span class="sakura-icon"></span>
+        <span>Galeri</span>
+      </a>
+    </section>
+
+  </main>
+
+  <script>
+    // Music Player
+    window.addEventListener("click", function () {
+      const frame = document.querySelector("iframe");
+      if (frame) {
+        frame.contentWindow.postMessage("play-music", "*");
+      }
+    }, { once: true });
+
+    // Floating Petals
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.className = "petal";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.animationDuration = (4 + Math.random() * 3) + "s";
+      petal.style.animationDelay = Math.random() * 2 + "s";
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 10000);
+    }
+
+    setInterval(createPetal, 800);
+  </script>
+
+</body>
+</html>
